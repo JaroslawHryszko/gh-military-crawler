@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "gh-military-crawler"
+version = "0.1.0"
+description = ""
+authors = ["Tomasz Miśkowicz <tomasz.jan.miskowicz@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langdetect = "^1.0.9"
+translate = "^3.6.1"
+requests = "^2.31.0"
+bs4 = "^0.0.1"
+"github3.py" = "^4.0.1"
+pypdf = "^3.17.4"
+# ocr package
+# alternatively: https://github.com/JaidedAI/EasyOCR
+pytesseract = "^0.3.10"
+pillow = "^10.2.0"
+
+# TODO add pdf2image
+# also check on mac, not on windows - jeez windows sucks
+# https://www.geeksforgeeks.org/python-reading-contents-of-pdf-using-ocr-optical-character-recognition/
+
+# test - ocr for pdf:
+# https://github.com/ocrmypdf/OCRmyPDF
+# preferably on mac/linux
+
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.13.2"
+black = "^23.12.1"
+pylint = "^3.0.3"
+pyright = "^1.1.344"
+poethepoet = "^0.24.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+#############    POE COMMANDS
+
+[tool.poe.tasks]
+lint = "pylint src"
+format = "isort src && black src"
+typecheck = "pyright src"
+format_check = "isort --check . && black --check ."
+
+fmt.sequence = ["lint", "format", "typecheck"]
+fmt.ignore_fail = true

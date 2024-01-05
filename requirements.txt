@@ -1,6 +1,5 @@
 langdetect
 translate
-wikipedia-api
 bs4
 github3.py
 pypdf
