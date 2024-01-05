@@ -1,0 +1,19 @@
+langdetect
+translate
+wikipedia-api
+bs4
+github3.py
+pypdf
+
+# ocr
+# alternatively: https://github.com/JaidedAI/EasyOCR
+pytesseract
+# pillow is required for pytesseract to work
+pillow
+
+pdf2image # also check on mac, not on windows - jeez windows sucks
+# https://www.geeksforgeeks.org/python-reading-contents-of-pdf-using-ocr-optical-character-recognition/
+
+# test - ocr for pdf:
+# https://github.com/ocrmypdf/OCRmyPDF
+# preferably on mac/linux
