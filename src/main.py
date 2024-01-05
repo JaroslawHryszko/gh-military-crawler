@@ -68,4 +68,10 @@ if __name__ == "__main__":
     page = requests.get('https://en.wikipedia.org/wiki/List_of_active_Russian_military_aircraft')
     # wikitable sortable    jquery - tablesorter
     # wikitable do skipa, samemu pobrac
+    # https://www.crummy.com/software/BeautifulSoup/bs4/doc/#navigating-the-tree
+    page = requests.get('https://en.wikipedia.org/wiki/List_of_equipment_of_the_Russian_Ground_Forces')
+
+
+    # https://commonslibrary.parliament.uk/research-briefings/cbp-9477/
+    # to sprawdzic
     pass
