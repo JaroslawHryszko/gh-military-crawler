@@ -68,11 +68,14 @@ Programming languages we're looking for:
 - jets, rockets, drones etc.: 
 	- ADA - [history of ADA on Stanford University site](https://cs.stanford.edu/people/eroberts/cs181/projects/1999-00/critical-systems/military.htm)and a [blogpost on `militaryembedded.com`](https://militaryembedded.com/avionics/software/ada-matters)
 	- FPGA - [it's the official Intel site](https://www.intel.com/content/www/us/en/government/products/programmable/applications.html) (and the link contains `/us/government/`)
+      - Verilog
+      - VHDL
 	- C/C++ 
 		- [for aircrafts](https://aviation.stackexchange.com/a/15486)
 		- [a paper on simulating military operations](https://arxiv.org/abs/2207.12084)
 		- even some [weird GPT](https://chat.openai.com/g/g-0P9gf61T8) exists for military drone control in C++ for Canadian Armed Forces
-	- Rust - the same reasons as above, but less likely to find in real military solutions - the software might be written by a guy who knows military and just doesn't like C++ (loves Rust for being *blazingly fast*)
+      - Makefile 
+    - Rust - the same reasons as above, but less likely to find in real military solutions - the software might be written by a guy who knows military and just doesn't like C++ (loves Rust for being *blazingly fast*)
 - other military stuff, research etc.:
 	- Java - [*Java, which has provided high productivity and quality in desktop and mobile applications, offers a compelling alternative to C++ for next-generation mission-critical systems*](http://pdf.cloud.opensystemsmedia.com/vita-technologies.com/Aonix.Jun07.pdf)
 		- *Virtually all computer science and software engineering students are emerging from universities with training and expertise in Java, compared to relatively few Ada-trained graduates.*
@@ -94,7 +97,7 @@ https://en.wikipedia.org/wiki/Lists_of_currently_active_military_equipment_by_co
 -----
 ### Platforms
 ##### GitHub
-Framework for crawling - [`github3`](https://github.com/sigmavirus24/github3.py) - this one looks the best for me.
+Framework for crawling - [`PyGithub`](https://github.com/PyGithub/PyGithub)
 - Other libraries [recommended by GitHub](https://docs.github.com/en/rest/using-the-rest-api/libraries-for-the-rest-api?apiVersion=2022-11-28#python)
 - [GitHub REST API docs](https://docs.github.com/en/rest/about-the-rest-api/about-the-rest-api?apiVersion=2022-11-28)
 
@@ -175,3 +178,8 @@ https://www.google.com/search?q=github+military+#ip=1
 https://www.google.com/search?q=russia+ukraine+war+open+source+mistakes+
 
 google crawler using site:github.com,bitbucket.com,gitlab.com (or what the syntax is for multiple sites) \*phrase\*
+
+##### Future reference 
+https://sekurak.pl/prawdopodobnie-najwiekszy-cyberatak-w-historii-na-operatora-telekomunikacyjnego-uderzony-core-sieci-telekomunikacyjnej-najwiekszego-operatora-gsm-na-ukrainie/
+- a cyberattack 
+
