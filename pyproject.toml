@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.11"
 requests = "^2.31.0"
 python-dotenv = "^1.0.0"
-"github3.py" = "^4.0.1"
+pygithub = "^2.1.1"
 
 langdetect = "^1.0.9"
 translate = "^3.6.1"
@@ -17,7 +17,6 @@ pypdf = "^3.17.4"
 
 # data from wikipedia
 bs4 = "^0.0.1"
-requests = "^2.31.0"
 
 # ocr package
 # alternatively: https://github.com/JaidedAI/EasyOCR
@@ -31,6 +30,11 @@ pillow = "^10.2.0"
 # test - ocr for pdf:
 # https://github.com/ocrmypdf/OCRmyPDF
 # preferably on mac/linux
+transliterate = "^1.10.2"
+
+# TODO check pycld2/3 instead of langdetect (https://github.com/aboSamoor/pycld2/issues/43)
+#pycld2 = "^0.41"
+langid = "^1.1.6"
 
 
 [tool.poetry.group.dev.dependencies]

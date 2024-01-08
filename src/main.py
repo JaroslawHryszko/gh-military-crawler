@@ -1,13 +1,16 @@
 import os
 import time
+import re
+import unicodedata
+from typing import List, Set
 
 import langdetect
 import pytesseract
-from github import Github, Auth
-from github.Repository import Repository
-from langdetect import detect
-from PIL import Image
 from dotenv import load_dotenv
+from github import Auth, Github
+from github.ContentFile import ContentFile
+from github.Repository import Repository
+from PIL import Image
 
 from builder import GithubSearchQueryBuilder
 
@@ -17,10 +20,15 @@ def setup():
     pytesseract.pytesseract.tesseract_cmd = os.getenv("TESSERACT_EXECUTABLE_PATH")
 
 
-def read_military_names():
+def read_keywords():
+    military_names = []
     with open("../data/military_names.txt", "r", encoding="utf-8") as file:
-        military_names = file.read().split("\n")
+        military_names.extend(file.read().split("\n"))
+    with open("../data/other.txt", "r", encoding="utf-8") as file:
+        military_names.extend(file.read().split("\n"))
     return military_names
+
+
 
 
 def get_file_extension(file_name: str):
@@ -31,24 +39,67 @@ def get_file_extension(file_name: str):
     else:
         return parts[-1]  # Return the last part as the file extension
 
+
 # if in invalid extensions check only filename
-invalid_extensions = [".dll", ".exe", ""]
+invalid_extensions: Set[str] = {".dll", ".exe"}
+cyryllic_languages: Set[str] = {'be', 'bg', 'kk', 'ky', 'mk', 'sr', 'ru', 'tg', 'tk', 'uk', 'uz'}
+
+
+def is_cyrillic(char):
+    return 'CYRILLIC' in unicodedata.name(char, '')
+
+
+def handle_pdf_file():
+    pass
+
+
+def check_file_contents(file_content: ContentFile) -> int:
+    """
+
+    :param file_content:
+    :return: probability of a repository
+    """
+    probability = 0
+    extension = get_file_extension(file_content.name)
+    # check filename
+    if "ru" in map(lambda x: x.lang, langdetect.detect_langs(file_content.name)):
+        probability += 1
+
+    if extension in invalid_extensions:
+        return
+    elif extension == ".pdf":
+        probability += handle_pdf_file()
+
+    decoded_file_contents = file_content.decoded_content.decode("utf-8")
+
+    # based on probability - can get different results each time
+    # TODO langdetect doesn't recognise russian words not written in Cyrillic
+    range_probablility = 0
+    range_cap = 10
+    for _ in range(range_cap):
+        if "ru" in map(lambda x: x.lang, langdetect.detect_langs(decoded_file_contents)):
+            range_probablility += 1
+
+    probability += int(range_probablility / range_cap)
+
+    # get all file contents as single words, then detect what language are they
+    # words_in_file = re.split(r"\s", file_content.decoded_content.decode("utf-8"))
+    # TODO check every single word?
+
+    return probability
+
+
 def check_repo_contents(repo: Repository):
     contents = repo.get_contents("/")
     while contents:
-        file_content = contents.pop(0)
-        if file_content.type == "dir":
-            contents.extend(repo.get_contents(file_content.path))
+        file_contents = contents.pop(0)
+        if file_contents.type == "dir":
+            contents.extend(repo.get_contents(file_contents.path))
         else:
+            check_file_contents(file_contents)
             # TODO do the checking here
-            print(file_content.decoded_content)
-            (file_content.name)
-            decoded = file_content.decoded_content.decode("utf-8")
-            # print(decoded)
-            # print(langdetect.detect(file_content.decoded_content))
-            print(langdetect.detect(decoded))
-            time.sleep(1)
-    # check repositories with only txt files or images - leaked files
+        time.sleep(1)
+    # TODO what about images?
 
 
 def main():
@@ -59,7 +110,8 @@ def main():
     # without token can't search for code
     # g = GitHub()
 
-    military_names = read_military_names()
+    military_names: List[str] = read_keywords()
+    possible_matches: List[Repository] = []
     # i = 1
     for name in military_names:
         # print(f"{i}. {name}")
@@ -71,19 +123,12 @@ def main():
 
         codes = g.search_code(query=query)
         for code in codes:
-            check_repo_contents(code.repository)
-            # print(code.repository)
+            if check_repo_contents(code.repository):
+                possible_matches.append(code.repository)
+            # TODO check user
+            # check_user(...)
         time.sleep(1)
 
 
 if __name__ == "__main__":
     main()
-
-    #
-    # # Test file names
-    # file_names = ['example.txt', '.gitignore', 'image.png', 'script.py', 'no_extension']
-    #
-    # # Get file extensions avoiding files starting with dot
-    # valid_file_extensions = [get_file_extension(name) for name in file_names if not name.startswith('.')]
-    #
-    # print(valid_file_extensions)  # Print the valid file extensions
