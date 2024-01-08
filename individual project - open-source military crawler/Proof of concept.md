@@ -18,35 +18,29 @@ It's also possible that some other military [open-source intelligence (OSINT)](h
 - maps etc.
 	- *(...) researchers can i.a. develop geographical protection by visualising the area. Military reconnaissance focuses on information including: terrain, hydrographic networks, transport networks, land cover and the type of land. All this data is needed to develop a military strategy that often determines the success or failure of security systems.* - as stated [here](https://securityanddefence.pl/Open-source-intelligence-OSINT-as-an-element-of-military-recon,103337,0,2.html#S4)
 
-#### Why can it be possible?
-
-by Agata Ziółkowska in [*Open source intelligence (OSINT) as an element of military recon*](https://securityanddefence.pl/Open-source-intelligence-OSINT-as-an-element-of-military-recon,103337,0,2.html)
 
 > (...) referring to OSINT as a form of military intelligence, because the inseparable association of intelligence with secrecy is one of the fundamental elements that distinguishes it from freedom of expression and demerging views.
 
-(^ not here, delete that)
+by Agata Ziółkowska in [*Open source intelligence (OSINT) as an element of military recon*](https://securityanddefence.pl/Open-source-intelligence-OSINT-as-an-element-of-military-recon,103337,0,2.html)
 
+#### Why can it be possible?
 
 >For operational activities, publicly available and published information is crucial, i.e. about diplomatic activity and political plans that can be acquired through tools such as OSINT. This category also includes information on internal, economic, social, scientific and technical policies as well as demographic issues. Despite its openness, it is in the secret services’ scope, because after proper processing and analysis, it becomes valuable information (Dictionary of NATO).
 
 // check how many russian repositories are there (if it's even possible)
 // most popular military rockets, tanks, vehicles etc. - maybe a list from github or somewhere
 
-- On GitHub we can find public organizations pointed at military research, like [DEVCOM Army Research Laboratory](https://github.com/USArmyResearchLab), or repositories, like [this one](https://github.com/ARL-UTEP-OC/ecel). 
+- On GitHub, we can find public organizations pointed at military research, like [DEVCOM Army Research Laboratory](https://github.com/USArmyResearchLab), or repositories, like [this one](https://github.com/ARL-UTEP-OC/ecel). 
 
 - It's not uncommon that some student decides to publish their project and show to the world. It may happen that it is somehow [army-related](https://github.com/lrmcc/ARO-Senior-Design). Possibly it can contain some ___TOP SECRET___ data - mistakes happen. If that's not the case though, it still can be a foothold for further searching.
 
 - Information leaks happen everywhere, and [this war is not the one avoiding it](https://www.nytimes.com/2023/04/08/us/politics/leaked-documents-russia-ukraine-war.html). What's best - the materials that were leaked were found on social media sites - it shouldn't be impossible for them to pop up somewhere on open-source repository hosts.
-
-- 
 
 
 #### Why it might not work?
 
 Even though some open-source repositories are available, finding them among billions of others and filtering the right ones might be impossible.
 We're also not sure if Russia uses any open-source repository hosts (of course it would be very dumb), like GitHub or GitLab - they probably have some self-hosted internal ones. If, however, the crawler finds some repositories, they might as well be filled with fake code/data to spread misinformation. 
-
-
 
 >You cannot, however, bypass open sources with limited availability. Some portals and databases belong to these. Intelligence agencies are devoting more and more resources to obtaining information from the public. Unlimited access to content and a powerful amount of data requires appropriate selection in terms of topics and needs. Therefore, this type of operation uses specialised information technology
 
@@ -91,6 +85,11 @@ Programming languages we're looking for:
 	- get the text/OCR it, gather most popular keywords and look for them later
 	- reverse search images that appear there 
 - code: 
+- keywords:
+  - https://irp.fas.org/world/russia/sovmil-glossary.pdf
+  - https://en.wiktionary.org/wiki/Category:Russian_military_slang
+  - https://irp.fas.org/world/russia/fbis/Acronyms.html
+  - 
 
 https://en.wikipedia.org/wiki/Lists_of_currently_active_military_equipment_by_country
 
@@ -134,7 +133,7 @@ Another similar one - https://intelx.io/
 [https://z.zz.fo/WkIIw.png](https://z.zz.fo/WkIIw.png)
 [https://z.zz.fo/Kr0Xc.png](https://z.zz.fo/Kr0Xc.png)
 These data dump collections can be found on DHT search engine like BTDig along with their magnets. All 4 magnets from screenshots above are live. Search with keywords like leak or website name. Use VM and use VPN.
-Also this tool is for managing data breaches. [https://github.com/sensepost/Frack](https://github.com/sensepost/Frack)
+Also, this tool is for managing data breaches. [https://github.com/sensepost/Frack](https://github.com/sensepost/Frack)
 
 
 ![[Pasted image 20240104000109.png]]
