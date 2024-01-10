@@ -10,31 +10,25 @@ python = "^3.11"
 requests = "^2.31.0"
 python-dotenv = "^1.0.0"
 pygithub = "^2.1.1"
-
-langdetect = "^1.0.9"
-translate = "^3.6.1"
-pypdf = "^3.17.4"
-
 # data from wikipedia
 bs4 = "^0.0.1"
-
-# ocr package
-# alternatively: https://github.com/JaidedAI/EasyOCR
-pytesseract = "^0.3.10"
-pillow = "^10.2.0"
-
-# TODO add pdf2image
-# also check on mac, not on windows - jeez windows sucks
-# https://www.geeksforgeeks.org/python-reading-contents-of-pdf-using-ocr-optical-character-recognition/
-
-# test - ocr for pdf:
-# https://github.com/ocrmypdf/OCRmyPDF
-# preferably on mac/linux
-transliterate = "^1.10.2"
 
 # TODO check pycld2/3 instead of langdetect (https://github.com/aboSamoor/pycld2/issues/43)
 #pycld2 = "^0.41"
 langid = "^1.1.6"
+langdetect = "^1.0.9"
+translate = "^3.6.1"
+pypdf = "^3.17.4"
+# TODO what was it
+transliterate = "^1.10.2"
+
+
+# OCR
+# alternatively: https://github.com/JaidedAI/EasyOCR
+pytesseract = "^0.3.10"
+pillow = "^10.2.0"
+opencv-python = "^4.9.0.80"
+pdf2image = "^1.17.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -53,7 +47,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poe.tasks]
 lint = "pylint src"
-format = "isort src && black src"
+format.shell = "isort . && black ."
 typecheck = "pyright src"
 format_check = "isort --check . && black --check ."
 
