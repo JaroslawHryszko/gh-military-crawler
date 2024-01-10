@@ -1,8 +1,13 @@
 import mimetypes
+from pathlib import Path
 from typing import List
 
 # TODO change those into frozen counterparts
 # from frozenlist import FrozenList
+
+
+MIN_PROBABILITY_TO_ACCEPT: float = 0.4
+ROOT_PROJECT_PATH = Path(__file__).parent.parent
 
 
 def get_extensions_for_type(general_type: str):
