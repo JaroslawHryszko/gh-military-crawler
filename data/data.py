@@ -1,21 +1,23 @@
-import requests
+import re
 
+import requests
 from bs4 import BeautifulSoup
 
 
 def scrap_wikipedia_page_table(wikipedia_link: str):
     page = requests.get(wikipedia_link)
     soup = BeautifulSoup(page.content, "html.parser")
-    tables = soup.find_all('table', class_="wikitable")
+    tables = soup.find_all("table", class_="wikitable")
     first_column_values = []
     for table in tables:
         rows = table.find_all("tr")
         for row in rows:
-            columns = row.find_all('td')
+            columns = row.find_all("td")
             if columns:
-                import re
-                # for asdf^[1]
-                first_column_value = re.sub(r"\[.*\]", "", columns[0].text.strip())
+                # regex for asdf^[1]
+                first_column_value = re.sub(
+                    r"\[.*]", "", columns[0].search_text.strip()
+                )
                 first_column_values.append(first_column_value)
     return first_column_values
 
@@ -30,5 +32,5 @@ if __name__ == "__main__":
     for link in links:
         formatted_names.extend(scrap_wikipedia_page_table(link))
     formatted_names = set(filter(lambda x: x.strip(), formatted_names))
-    with open("../data/military_names.txt", "w", encoding="utf-8") as file:
-        file.write('\n'.join(formatted_names))
+    with open("military_names.txt", "w", encoding="utf-8") as file:
+        file.write("\n".join(formatted_names))
