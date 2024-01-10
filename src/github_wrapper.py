@@ -1,5 +1,5 @@
 import time
-from typing import List
+from typing import List, Tuple
 
 import langdetect
 from github import Auth, Github, Repository, NamedUser
@@ -28,6 +28,8 @@ class GithubSearchQueryBuilder:
         return self.search_text + " " + " ".join(languages_str)
 
 
+caught_invalid_extensions = []
+
 class GithubWrapper:
     def __init__(self, github_token: str, query_builder: GithubSearchQueryBuilder):
         self.query_builder: GithubSearchQueryBuilder = query_builder
@@ -36,7 +38,7 @@ class GithubWrapper:
     def check_all(self):
         pass
 
-    def check_repositories(self, query: str):
+    def check_repositories(self, query: str) -> List[Repository]:
         possible_matches = []
         repositories = self.g.search_repositories(query=query)
         for repo_search_result in repositories:
@@ -57,8 +59,9 @@ class GithubWrapper:
             if repo_score >= 0.5:
                 possible_matches.append(repo_search_result)
         time.sleep(1)
+        return possible_matches
 
-    def check_code(self, query: str):
+    def check_code(self, query: str) -> List[Repository]:
         possible_matches = []
         codes = self.g.search_code(query=query)
         for code_search_result in codes:
@@ -71,6 +74,7 @@ class GithubWrapper:
             if repo_score >= 0.5:
                 possible_matches.append(code_search_result.repository)
         time.sleep(1)
+        return possible_matches
 
     def _check_repo_contents(self, repo: Repository):
         contents: List[ContentFile] = repo.get_contents("/")
@@ -117,7 +121,12 @@ class GithubWrapper:
         elif extension in image_extensions:
             return handle_image_file(file_content), has_russian_filename
 
-        decoded_file_contents = file_content.decoded_content.decode("utf-8")
+        try:
+            decoded_file_contents = file_content.decoded_content.decode("utf-8")
+        except UnicodeDecodeError:
+            print(f"Invalid extension: {extension}")
+            caught_invalid_extensions.append(extension)
+            return 0, has_russian_filename
 
         # based on probability - can get different results each time
         # TODO langdetect doesn't recognise russian words not written in Cyrillic
@@ -125,10 +134,7 @@ class GithubWrapper:
         range_probability = 0.0
         range_cap = 10
         for _ in range(range_cap):
-            if "ru" in map(
-                lambda x: x.lang, langdetect.detect_langs(decoded_file_contents)
-            ):
-                range_probability += 1.0
+            range_probability += check_for_russian(decoded_file_contents)
 
         probability += range_probability / range_cap
 

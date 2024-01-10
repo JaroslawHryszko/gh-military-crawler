@@ -20,7 +20,7 @@ def get_extensions_for_type(general_type: str):
 mimetypes.init()
 
 image_extensions = list(get_extensions_for_type("image"))
-invalid_extensions: List[str] = [".dll", ".exe"]
+invalid_extensions: List[str] = [".dll", ".exe", ".paa", ".p3d"]
 
 # TODO add more languages or split them
 programming_languages: List[str] = ["Assembly", "Ada", "C++", "C", "Rust"]

@@ -1,8 +1,11 @@
+import sys
 import unicodedata
 import io
 from typing import List, Union
 
+import PIL
 import langdetect
+from langdetect.lang_detect_exception import LangDetectException
 import pytesseract
 from PIL import Image
 from github.ContentFile import ContentFile
@@ -26,7 +29,7 @@ def get_file_extension(file_name: str):
     # Check if the file name starts with a dot or if there's only one part (no extension)
     if file_name.startswith(".") or len(parts) == 1:
         return None  # Return None for files like .gitignore or files without extensions
-    return parts[-1]  # Return the last part as the file extension
+    return "." + parts[-1]  # Return the last part as the file extension
 
 
 def is_cyrillic(char):
@@ -36,17 +39,26 @@ def is_cyrillic(char):
 def check_for_russian(content: str, languages: List[str] = None) -> float:
     if languages is None:
         languages = ["ru"]
-    if any(
-        lang in map(lambda x: x.lang, langdetect.detect_langs(content))
-        for lang in languages
-    ):
-        return 1.0
-    return 0.0
+    try:
+        if any(
+            lang in map(lambda x: x.lang, langdetect.detect_langs(content))
+            for lang in languages
+        ):
+            return 1.0
+        return 0.0
+    except LangDetectException:
+        return 0.0
 
 
 def handle_image_file(image_file: Union[ContentFile, Image]) -> float:
-    if isinstance(image_file, ContentFile):
-        image_file = Image.open(io.BytesIO(image_file.decoded_content))
+    try:
+        if isinstance(image_file, ContentFile):
+            image_file = Image.open(io.BytesIO(image_file.decoded_content))
+    except PIL.UnidentifiedImageError as e:
+        print("Exception in handle_pdf_file")
+        print(f"name: {image_file.name}, encoding: {image_file.encoding}")
+        print(e, file=sys.stderr)
+        return 0.0
 
     text_from_image = pytesseract.image_to_string(image_file)
     probability = 0.0
@@ -64,7 +76,14 @@ def run_ocr_on_pdf(pdf_file: ContentFile):
 
 
 def handle_pdf_file(pdf_file: ContentFile) -> float:
-    pdf_handle = PdfReader(io.BytesIO(pdf_file.decoded_content))
+    try:
+        pdf_handle = PdfReader(io.BytesIO(pdf_file.decoded_content))
+    except Exception as e:
+        print("Exception in handle_pdf_file")
+        print(f"name: {pdf_file.name}, encoding: {pdf_file.encoding}")
+        print(e, file=sys.stderr)
+        return 0.0
+
     if pdf_handle.is_encrypted:
         return 0.0
 

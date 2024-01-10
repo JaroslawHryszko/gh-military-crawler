@@ -23,6 +23,7 @@ def main():
     )
 
     military_names = read_keywords()
+    repositories = []
     for name in military_names:
         query = (
             GithubSearchQueryBuilder()
@@ -30,9 +31,14 @@ def main():
             .set_languages(*programming_languages)
             .build()
         )
-        g.check_code(query)
-        g.check_repositories(query)
+        print(f"Searching for query: {query}\n")
+        repositories.extend(g.check_code(query))
+        repositories.extend(g.check_repositories(query))
+
+    print(repositories)
 
 
 if __name__ == "__main__":
     main()
+    from github_wrapper import caught_invalid_extensions
+    print(caught_invalid_extensions)
