@@ -3,3 +3,4 @@
 
 tesseract
 venv
+*/__pycache__
